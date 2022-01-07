@@ -1,55 +1,4 @@
-// lister tous les usages de données :
-// - liste des photographes, DONE
-// - liste des photographes par tag,
-// - liste des medias par photographe DONE
-// - total de like pour un photographe
-// - liste de tous les tags
-//
-class ServiceData {
-    static async getJsonData() {
-        const dataFetch = await fetch("/FishEyeData.json");
-        return await dataFetch.json();
-    }
-    static async loadPhotographers() {
-        const data = await ServiceData.getJsonData();
-        const photographers = data.photographers;
-        return photographers;
-    }
-
-    static async loadPhotographersByCity(city) {
-        const data = await ServiceData.getJsonData();
-        const photographers = data.photographers;
-        return photographers.filter((photographer) => photographer.city === city);
-    }
-
-    static async loadMediaByPhotographerId(id) {
-        const data = await ServiceData.getJsonData();
-        const media = data.media;
-        return media.filter((media) => media.photographerId === id);
-    }
-    static async loadPhotographersByTags(tags) {
-        const data = await ServiceData.getJsonData();
-        const photographers = data.photographers;
-        return photographers.filter((photographer) => photographer.tags === tags);
-    }
-    static async loadTags() {
-        const data = await ServiceData.getJsonData();
-        const photographers = data.photographers;
-        const tags = new Set();
-       for(const photographer of photographers) {
-            for (const tag of photographer.tags) {
-                tags.add(tag);
-            }
-        }
-        return tags;
-    }
-    static async loadMediasByLikes(){
-            const data = await ServiceData.getJsonData();
-            const media = data.media;
-            return media;
-    }
-}
-
+import ServiceData from "./Data.js"
 async function main(title) {
     const photographerList = await ServiceData.loadPhotographers();
     const headerTags = await ServiceData.loadTags();
@@ -61,10 +10,16 @@ async function main(title) {
         const headerTags = document.createElement('li')
         headerTags.innerHTML = `#${tag}`
         headerTags.classList.add('tag')
-        document.querySelector(['header .tags']).appendChild(headerTags)
+        document.querySelector('header .tags').appendChild(headerTags)
     });
+    const links = document.querySelectorAll("section a")
+    for (const link of links) {addEventListener('click', goToPhotographerPage)
+    };
 
 }
+ function goToPhotographerPage(event) {
+    const link = event.target
+ }
 const photographerTags = (tags) =>{
     const element = `<ul class = "tags photographertags">
     ${
@@ -78,7 +33,7 @@ const photographerTags = (tags) =>{
  const addCard = (photographer)=> {
     const element= document.createElement("section")
     const card =
-        `<a href="#"><img src="FishEye_Photos/Sample_Photos/Photographers_ID_photos/${photographer.portrait}" alt="${photographer.name}" class ="cardimg">
+        `<a href="photographer.html?id=${photographer.id}"><img src="FishEye_Photos/Sample_Photos/Photographers_ID_photos/${photographer.portrait}" alt="${photographer.name}" class ="cardimg">
         <h2>${photographer.name}</h2> </a>
         <p class ="tagline">${photographer.tagline}</p>
         <p class ="city">${photographer.city}, ${photographer.country}</p>
@@ -90,3 +45,4 @@ const photographerTags = (tags) =>{
 }
 
 main();
+
