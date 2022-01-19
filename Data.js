@@ -24,7 +24,7 @@
     static async loadPhotographerById(id) {
         const data = await ServiceData.getJsonData();
         const photographer = data.photographers;
-        return photographer.filter((photographer) => photographer.id === id);
+        return photographer.find((photographer) => photographer.id === id);
     }
     static async loadPhotographersByTags(tags) {
         const data = await ServiceData.getJsonData();

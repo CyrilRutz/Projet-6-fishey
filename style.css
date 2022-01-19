@@ -25,7 +25,6 @@ header{
     grid-column: 1/3;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-row: 1;
     width: 100%;
     margin: auto;
     align-items: center;
